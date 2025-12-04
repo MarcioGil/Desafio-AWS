@@ -1,12 +1,10 @@
 Desafio DIO: Gerenciamento de Instâncias EC2 na AWS
 
-Este repositório reúne toda a documentação produzida durante o laboratório de Gerenciamento de Instâncias EC2 na AWS, proposto pela DIO.
-O objetivo deste material é consolidar os conceitos estudados, registrar a experiência prática adquirida e servir como referência para futuros projetos em nuvem.
+Este repositório reúne toda a documentação produzida durante o laboratório de Gerenciamento de Instâncias EC2 na AWS, proposto pela DIO. O objetivo deste material é consolidar os conceitos estudados, registrar a experiência prática adquirida e servir como referência para futuros projetos em nuvem.
 
 🚀 Descrição Geral
 
-Durante o desafio, foram aplicados na prática os principais temas abordados nas aulas, incluindo o provisionamento, configuração, conexão e gerenciamento completo de uma instância EC2 na AWS.
-Este repositório funciona como um guia estudantil e um portfólio técnico organizado, demonstrando domínio dos conceitos fundamentais de computação em nuvem.
+Durante o desafio, foram aplicados na prática os principais temas abordados nas aulas, incluindo o provisionamento, configuração, conexão e gerenciamento completo de uma instância EC2 na AWS. Este repositório funciona como um guia estudantil e um portfólio técnico organizado, demonstrando domínio dos conceitos fundamentais de computação em nuvem.
 
 🎯 Objetivos de Aprendizagem Alcançados
 
@@ -18,30 +16,30 @@ Utilizar o GitHub como ferramenta de versionamento e documentação profissional
 
 Compreender a importância de segurança, custos e automação no gerenciamento de instâncias.
 
-🏗️ Arquitetura do Ambiente (Como solicitado na aula)
+🏗 Arquitetura do Ambiente (como solicitado na aula)
 
-Abaixo está a representação da arquitetura utilizada durante o laboratório, conforme o padrão ensinado:
+Abaixo está a representação da arquitetura utilizada durante o laboratório. O bloco está corretamente delimitado por três crases para evitar problemas na renderização do GitHub:
 
 ┌──────────────────────────────────────────────────────────────┐
 │                        AWS Cloud                             │
 │                                                              │
-│   ┌────────────────────────────────────────────────────────┐  │
-│   │                    VPC (Rede Virtual)                  │  │
-│   │                                                      │ │  │
-│   │  ┌──────────────────────────────────────────────────┐ │  │
-│   │  │                Subnet Pública                    │ │  │
-│   │  │                                                  │ │  │
-│   │  │  ┌────────────────────────────────────────────┐ │ │  │
-│   │  │  │              Instância EC2                 │ │ │  │
-│   │  │  │  - Ubuntu Server 22.04 (AMI)               │ │ │  │
-│   │  │  │  - Tipo t2.micro (Free Tier)               │ │ │  │
-│   │  │  │  - Chave SSH (.pem)                        │ │ │  │
-│   │  │  │  - Security Group: Porta 22 e opcional 80  │ │ │  │
-│   │  │  └────────────────────────────────────────────┘ │ │  │
-│   │  │                                                  │ │  │
-│   │  └──────────────────────────────────────────────────┘ │  │
-│   │                                                      │ │  │
-│   └────────────────────────────────────────────────────────┘  │
+│   ┌────────────────────────────────────────────────────────┐ │
+│   │                    VPC (Rede Virtual)                  │ │
+│   │                                                      │ │
+│   │  ┌──────────────────────────────────────────────────┐ │ │
+│   │  │                Subnet Pública                    │ │ │
+│   │  │                                                  │ │ │
+│   │  │  ┌────────────────────────────────────────────┐ │ │ │
+│   │  │  │              Instância EC2                 │ │ │ │
+│   │  │  │  - Ubuntu Server 22.04 (AMI)               │ │ │ │
+│   │  │  │  - Tipo t2.micro (Free Tier)               │ │ │ │
+│   │  │  │  - Chave SSH (.pem)                        │ │ │ │
+│   │  │  │  - Security Group: Porta 22 e opcional 80  │ │ │ │
+│   │  │  └────────────────────────────────────────────┘ │ │ │
+│   │  │                                                  │ │ │
+│   │  └──────────────────────────────────────────────────┘ │ │
+│   │                                                      │ │
+│   └────────────────────────────────────────────────────────┘ │
 │                                                              │
 │  Internet ←──── Elastic IP (opcional) ────→ Instância EC2    │
 └──────────────────────────────────────────────────────────────┘
@@ -49,81 +47,64 @@ Abaixo está a representação da arquitetura utilizada durante o laboratório, 
 
 Resumo da Arquitetura:
 
-Uma instância EC2 Ubuntu 22.04 LTS dentro de uma Subnet Pública.
+Instância EC2 Ubuntu 22.04 LTS em Subnet Pública.
 
-Acesso configurado via SSH usando par de chaves.
+Acesso via SSH com Key Pair.
 
-Security Group controlando portas essenciais (22 e, opcionalmente, 80).
+Security Group permitindo apenas o tráfego necessário (porta 22 e, opcionalmente, porta 80).
 
-Conexão via IP Público ou Elastic IP, dependendo da necessidade.
+Elastic IP opcional para manter endpoint fixo em ambientes de produção.
 
 💡 Conceitos-Chave do Gerenciamento EC2
-| Conceito | Descrição |
-
-|----------|------------|
-| Instância EC2 | Servidor virtual escalável na nuvem da AWS, configurável conforme a necessidade. |
-| AMI | Imagem que contém o sistema operacional e as configurações base da instância. |
-| Key Pair | Par de chaves usado para autenticação segura via SSH. |
-| Security Group | Firewall virtual que controla tráfego de entrada e saída. |
-| Elastic IP | Endereço IP público estático ideal para ambientes de produção. |
-| Ciclo de Vida | Estados: pending → running → stopping → stopped → terminated. |
-| AWS Systems Manager | Ferramenta para automação, análise e gestão centralizada de servidores. |
-
+Conceito	Descrição
+Instância EC2	Servidor virtual escalável na nuvem da AWS, configurável conforme a necessidade.
+AMI	Imagem que contém sistema operacional e configuração base da instância.
+Key Pair	Par de chaves usado para autenticação segura via SSH.
+Security Group	Firewall virtual que controla tráfego de entrada e saída.
+Elastic IP	Endereço IP público estático ideal para ambientes de produção.
+Ciclo de Vida	Estados: pending → running → stopping → stopped → terminated.
+AWS Systems Manager	Ferramenta para automação, análise e gestão centralizada de servidores.
 📝 Anotações e Insights da Prática
 1. Lançamento e Configuração Inicial
 
-AMI usada: Ubuntu Server 22.04 LTS – robusta, estável e compatível com Free Tier.
+AMI utilizada: Ubuntu Server 22.04 LTS — estável e compatível com Free Tier.
 
-Tipo de instância: t2.micro – suficiente para testes técnicos.
+Tipo de instância: t2.micro — suficiente para testes técnicos.
 
-Par de chaves: Criado via console e armazenado com segurança; permissões ajustadas com chmod 400.
+Par de chaves: criado via Console AWS; arquivo .pem protegido e com permissões ajustadas (chmod 400).
 
 2. Conexão e Acesso Seguro
 
-Comando utilizado após o ajuste de permissões da chave:
+Use o comando abaixo (bloco de código corretamente delimitado):
 
 ssh -i "nome-do-par.pem" ubuntu@SEU-IP-PUBLICO
 
-Configurações de segurança:
 
-Porta 22 (SSH) liberada apenas para meu IP — quando possível.
+Boas práticas de segurança:
 
-Porta 80 (HTTP) aberta opcionalmente para testes web.
+Liberar porta 22 apenas para IPs confiáveis.
 
-Observação: exposições amplas (0.0.0.0/0) devem ser evitadas fora do ambiente educacional.
+Evitar 0.0.0.0/0 para SSH em ambientes de produção.
+
+Abrir porta 80 somente quando necessário para testes web.
 
 3. Ciclo de Vida da Instância
 
-Foi possível observar, na prática, como cada ação afeta a infraestrutura:
+Stop → Start: o IP público muda se não houver Elastic IP.
 
-Stop → Start: O IP público é alterado (caso não haja Elastic IP).
+Terminate: remove instância e dados do volume raiz (se não houver backup/snapshot).
 
-Terminate: A instância e o volume raiz são destruídos permanentemente.
+Insight: para ambientes críticos, utilize Elastic IPs e snapshots/AMIs para garantir disponibilidade e recuperação.
 
-Insight: Em ambientes críticos, Elastic IP é obrigatório para evitar perda de endpoint.
+4. Insights Adicionais
 
-4. Insights Adicionais Importantes
-🔒 Segurança
+Segurança: nunca compartilhe o arquivo .pem. Security Groups devem seguir o princípio do menor privilégio.
 
-Nunca compartilhar o arquivo .pem.
+Custos: instâncias paradas ainda geram custo de armazenamento (EBS). Evite deixar instâncias running desnecessariamente.
 
-Evitar portas desnecessárias.
+Automação: o AWS Systems Manager permite executar comandos e administrar instâncias sem acessar via SSH — ideal para escala.
 
-Security Groups devem seguir o princípio de menor privilégio.
-
-💰 Custos
-
-Instâncias paradas ainda geram custo através do EBS.
-
-Instâncias esquecidas running fora do Free Tier podem gerar cobranças rápidas.
-
-🤖 Automação
-
-O AWS Systems Manager possibilita executar comandos sem SSH.
-
-Excelente para ambientes corporativos e multi-instâncias.
-
-📂 Estrutura do Repositório
+📂 Estrutura Sugerida do Repositório
 /
 ├── README.md
 ├── images/
@@ -131,28 +112,21 @@ Excelente para ambientes corporativos e multi-instâncias.
 │   ├── ssh-connection.png
 │   └── architecture-diagram.png
 └── arquivos-adicionais/
-    └── (scripts, configs, outputs)
+    ├── scripts/
+    │   └── setup.sh
+    └── configs/
+        └── security-group.json
 
 🔗 Recursos Úteis
-Documentação Oficial AWS
 
-Gerenciamento de instâncias EC2 – AWS Docs
+Documentação AWS: Gerenciamento de instâncias EC2 – AWS Docs
 
-GitHub & Markdown
+GitHub & Markdown: GitHub Quick Start, Guia de Markdown do GitHub, Formação GitHub Certification (GitBook)
 
-GitHub Quick Start
-
-Formação GitHub Certification (GitBook)
-
-Guia Completo do GitHub
-
-Guia de Markdown do GitHub
-
-Se quiser incluir sua apresentação pessoal no final do README, aqui está a versão pronta:
+(Substitua os nomes dos recursos por links reais no seu README, se desejar.)
 
 👤 Autor
 
 Márcio Gil
 Embaixador do DIO Campus Expert & Estudante de Engenharia de Software
-Apaixonado por tecnologia, aprendizado contínuo e construção de soluções que geram impacto social.
-Este repositório é parte da minha jornada em computação em nuvem e desenvolvimento profissional.
+Apaixonado por tecnologia, aprendizado contínuo e construção de soluções que geram impacto social. Este repositório é parte da minha jornada em computação em nuvem e desenvolvimento profissional.
